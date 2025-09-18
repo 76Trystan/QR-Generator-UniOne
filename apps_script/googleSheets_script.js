@@ -5,13 +5,15 @@ function doGet(e) {
   }
   
   var lock = LockService.getDocumentLock(); // Lock sheet for atomic access
-  lock.waitLock(5000); // Wait up to 5 seconds for other processes to finish
+  lock.waitLock(2000); // Wait up to 2 seconds for other processes to finish
   
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName("Tickets"); // Sheet name
+    var sheet = ss.getSheetByName("Tickets"); // Sheet name // change as needed
     var data = sheet.getDataRange().getValues();
 
+
+    // these columns can be adjusted based on your sheet structure
     for (var i = 1; i < data.length; i++) {
       if (data[i][0] == ticketId) { // Ticket ID in column A
         var status = data[i][3]; // Status in column D
