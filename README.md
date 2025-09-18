@@ -76,6 +76,7 @@ function doGet(e) {
     lock.releaseLock();
   }
 }
+```
 
 > Tip: Make sure the scanner has good lighting and the QR code is fully visible for faster scanning.
 
