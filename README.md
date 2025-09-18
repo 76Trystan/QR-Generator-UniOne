@@ -16,7 +16,7 @@ When a user completes a ticket purchase, this page displays:
 
 To check in attendees using iPhones:
 
-1. **Open the QR scanner app** on your iPhone (any free QR code scanner will work, e.g., QR & Barcode Scanner, QRbot).  
+1. **Open the QR scanner app** on your iPhone (any free QR code scanner will work, e.g. QR & Barcode Scanner, QRbot).  
 2. **Scan the ticket QR code** presented by the attendee.  
 3. **Verify the Ticket ID**:
    - Check the Ticket ID against the Google Sheet or your event check-in list.
@@ -38,7 +38,7 @@ To check in attendees using iPhones:
    - `John` → `{first_name}`
    - `ABC123XYZ` → `{ticket_id}`
 
-### Example Body Content for UniOne
+### Example Body Content for UniOne/Clubs/Store/Proctucts/"Proctuct"/Completion Email
 
 ```html
 <h2>Your Ticket Confirmation – Insert Event Name</h2>
