@@ -1,6 +1,6 @@
 # Ticket Confirmation Template
 
-This is a simple HTML template page for a ticket purchasing system. It demonstrates a **purchase completion confirmation** page including a ticket ID and a QR code for entry.
+This is a simple HTML template page for a ticket purchase completion email. It demonstrates a **purchase completion confirmation** page including a ticket ID and a QR code for entry.
 
 ## Overview
 
@@ -38,7 +38,7 @@ To check in attendees using iPhones:
    - `John` → `{first_name}`
    - `ABC123XYZ` → `{ticket_id}`
 
-### Example Body Content for UniOne/Clubs/Store/Proctucts/"Proctuct"/Completion Email
+### Example Body Content for /Clubs/Store/Proctucts/"Proctuct"/Completion Email
 
 ```html
 <h2>Your Ticket Confirmation – Insert Event Name</h2>
