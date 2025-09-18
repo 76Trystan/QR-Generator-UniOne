@@ -14,15 +14,68 @@ When a user completes a ticket purchase, this page displays:
 
 ## Ticket Scanning Instructions (For Event Staff)
 
-To check in attendees using iPhones:
+To check in attendees using iPhones & Google Sheets:
 
-1. **Open the QR scanner app** on your iPhone (any free QR code scanner will work, e.g. QR & Barcode Scanner, QRbot).  
-2. **Scan the ticket QR code** presented by the attendee.  
-3. **Verify the Ticket ID**:
-   - Check the Ticket ID against the Google Sheet or your event check-in list.
-4. **Mark as Checked In**:
-   - Either update the Google Sheet manually or use a Google Form linked to the ticket ID to automatically record the check-in.
-5. **Repeat** for all attendees.
+## Requirements
+
+- A Google Sheet with ticket data
+- A ticketing system that can send emails with HTML templates
+- Basic Google account access for deploying the script
+
+---
+
+## Google Sheet Setup
+
+Your Google Sheet should have the following columns:
+
+| Ticket ID | Name     | Email            | Status       |
+|-----------|----------|------------------|--------------|
+| 12345     | John Doe | john@email.com   | (Leave blank) |
+| 67890     | Jane Doe | jane@email.com   | (Leave blank) |
+
+- **Ticket ID**: Unique ID for each ticket.
+- **Status**: Will be marked as "Checked In" when scanned.
+
+---
+
+## Apps Script Setup
+
+1. Open your Google Sheet.
+2. Go to **Extensions → Apps Script**.
+3. Delete any existing code and paste in the code below.
+
+```javascript
+function doGet(e) {
+  var ticketId = e.parameter.id;
+  if (!ticketId) {
+    return HtmlService.createHtmlOutput("<h2>❌ No ticket ID provided!</h2>");
+  }
+  
+  var lock = LockService.getDocumentLock();
+  lock.waitLock(5000); // Prevents conflicts when multiple staff scan at once
+  
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("Tickets");
+    var data = sheet.getDataRange().getValues();
+
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] == ticketId) {
+        var status = data[i][3]; // Status column
+        if (status == "Checked In") {
+          return HtmlService.createHtmlOutput("<h2>❌ Ticket already used!</h2>");
+        } else {
+          sheet.getRange(i+1, 4).setValue("Checked In");
+          return HtmlService.createHtmlOutput("<h2>✅ Ticket valid! Welcome, " + data[i][1] + "</h2>");
+        }
+      }
+    }
+    return HtmlService.createHtmlOutput("<h2>❌ Ticket not found!</h2>");
+    
+  } finally {
+    lock.releaseLock();
+  }
+}
 
 > Tip: Make sure the scanner has good lighting and the QR code is fully visible for faster scanning.
 
