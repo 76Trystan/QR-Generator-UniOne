@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Confirmation Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    h2 {
+      color: #333;
+    }
+    .ticket-info {
+      margin: 20px 0;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .qr-code {
+      margin: 20px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Your Ticket Confirmation – Insert Event Name Here</h2>
+
+  <p>Hi John,</p>
+  <p>Thank you for purchasing a ticket to <strong>Insert Event Name Here</strong>!</p>
+
+  <div class="ticket-info">
+    <p><strong>Ticket ID:</strong> ABC123XYZ</p>
+  </div>
+
+  <div class="qr-code">
+    <p>Please present this QR code at the event for entry:</p>
+    <img 
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ABC123XYZ" 
+      alt="Ticket QR Code">
+  </div>
+
+  <p>We look forward to seeing you there!</p>
+  <p>– MacAlpine Events Team 2025</p>
+</body>
+</html>
