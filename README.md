@@ -19,19 +19,20 @@ To check in attendees using iPhones & Google Sheets:
 ## Requirements
 
 - A Google Sheet with ticket data
-- A ticketing system that can send emails with HTML templates
+- Any QR Scanner App
 - Basic Google account access for deploying the script
+- Signed into google account you will be accessing from
 
 ---
 
 ## Google Sheet Setup
 
-Your Google Sheet should have the following columns:
+Your Google Sheet should roughly have the following columns:
 
 | Ticket ID | Name     | Email            | Status       |
 |-----------|----------|------------------|--------------|
-| 12345     | John Doe | john@email.com   | (Leave blank) |
-| 67890     | Jane Doe | jane@email.com   | (Leave blank) |
+| 12345     | Name1    | name1@email.com  | (Leave blank) |
+| 67890     | Name2    | name2@email.com  | (Leave blank) |
 
 - **Ticket ID**: Unique ID for each ticket.
 - **Status**: Will be marked as "Checked In" when scanned.
@@ -48,35 +49,41 @@ Your Google Sheet should have the following columns:
 function doGet(e) {
   var ticketId = e.parameter.id;
   if (!ticketId) {
-    return HtmlService.createHtmlOutput("<h2>❌ No ticket ID provided!</h2>");
+    return HtmlService.createHtmlOutput("<h2>No ticket ID provided!</h2>");
   }
   
-  var lock = LockService.getDocumentLock();
-  lock.waitLock(5000); // Prevents conflicts when multiple staff scan at once
+  var lock = LockService.getDocumentLock(); // Lock sheet for atomic access
+  lock.waitLock(2000); // Wait up to 2 seconds for other processes to finish
   
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName("Tickets");
+    var sheet = ss.getSheetByName("Tickets"); // Sheet name // change as needed
     var data = sheet.getDataRange().getValues();
 
+
+    // these columns can be adjusted based on your sheet structure
     for (var i = 1; i < data.length; i++) {
-      if (data[i][0] == ticketId) {
-        var status = data[i][3]; // Status column
+      if (data[i][0] == ticketId) { // Ticket ID in column A
+        var status = data[i][3]; // Status in column D
         if (status == "Checked In") {
-          return HtmlService.createHtmlOutput("<h2>❌ Ticket already used!</h2>");
+          return HtmlService.createHtmlOutput("<h2>Ticket already used!</h2>");
         } else {
           sheet.getRange(i+1, 4).setValue("Checked In");
-          return HtmlService.createHtmlOutput("<h2>✅ Ticket valid! Welcome, " + data[i][1] + "</h2>");
+          return HtmlService.createHtmlOutput("<h2>Ticket valid! Welcome, " + data[i][1] + "</h2>");
         }
       }
     }
-    return HtmlService.createHtmlOutput("<h2>❌ Ticket not found!</h2>");
+    return HtmlService.createHtmlOutput("<h2>Ticket not found!</h2>");
     
   } finally {
-    lock.releaseLock();
+    lock.releaseLock(); // Always release lock
   }
 }
 ```
+4. Click Deploy -> New Deployment -> Web App
+5. Set Execute: Me
+6. Set Who can access: Anyone with a link
+7. Click Deploy and copy the web url and paste it into the section in the HTML below called "WEB_APP_URL"
 
 > Tip: Make sure the scanner has good lighting and the QR code is fully visible for faster scanning.
 
@@ -107,7 +114,7 @@ function doGet(e) {
 <div style="margin:20px 0; text-align:center;">
   <p>Please present this QR code to the events team at the door for entry:</p>
   <img 
-    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={ticket_id}" 
+    src="https://quickchart.io/qr?text=WEB_APP_URL?id={{ticket_id}}&size=200"
     alt="Ticket QR Code">
 </div>
 
