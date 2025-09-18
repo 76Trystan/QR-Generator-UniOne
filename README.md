@@ -83,7 +83,7 @@ function doGet(e) {
 4. Click Deploy -> New Deployment -> Web App
 5. Set Execute: Me
 6. Set Who can access: Anyone with a link
-7. Click Deploy and copy the web url and paste it into the section in the HTML below called "WEB_APP_URL"
+7. Click Deploy and copy the deploy ID and paste it into the section in the HTML below called "DEPLOY_ID"
 
 > Tip: Make sure the scanner has good lighting and the QR code is fully visible for faster scanning.
 
@@ -114,7 +114,7 @@ function doGet(e) {
 <div style="margin:20px 0; text-align:center;">
   <p>Please present this QR code to the events team at the door for entry:</p>
   <img 
-    src="https://quickchart.io/qr?text=WEB_APP_URL?id={{ticket_id}}&size=200"
+    src="hhttps://script.google.com/macros/s/DEPLOY_ID/exec?id={{ticket_id}}"
     alt="Ticket QR Code">
 </div>
 
