@@ -99,7 +99,7 @@ function doGet(e) {
    - `John` → `{first_name}`
    - `ABC123XYZ` → `{ticket_id}`
 
-### Example Body Content for /Clubs/Store/Proctucts/"Proctuct"/Completion Email
+### Example Body Content for Completion Email
 
 ```html
 <h2>Your Ticket Confirmation – Insert Event Name</h2>
